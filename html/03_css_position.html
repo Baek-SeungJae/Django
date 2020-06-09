@@ -1,0 +1,70 @@
+<!-- box_exercise.html -->
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BOX Model Practice</title>
+    <link rel="stylesheet" href="box-model.css">
+    <style>
+        .big-box{
+            width: 300px;
+            height: 300px;
+            border: solid 4px black;
+            position: absolute;
+            top: 200px;
+            left: 300px;
+        }
+        .small-box{
+            width: 20%;
+            height: 20%;
+        }
+        #red{
+            background-color: #ff0000;
+            position: absolute;
+            top: 80%;
+            left: 80%;
+        }
+        #gold{
+            background-color: #ffff00;
+            position: absolute;
+            top: 150%;
+            left: 150%;
+        }
+        #green{
+            background-color: #00ff00;
+            position: absolute;
+            top: 40%;
+            left: 40%;
+        }
+        #blue{
+            background-color: #0000ff;
+            position: absolute;
+            top: 20%;
+            left: 20%;
+        }
+        #pink{
+            background-color: #ff42f6;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="big-box">
+        <div class="small-box" id="red"></div>
+        <div class="small-box" id="gold"></div>
+        <div class="small-box" id="green"></div>
+        <div class="small-box" id="blue"></div>
+        <div class="small-box" id="pink"></div>
+    </div>
+
+</body>
+
+</html>
