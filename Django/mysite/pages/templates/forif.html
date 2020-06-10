@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h2> 1. </h2>
+  {% for data in my_list %}
+   <p>{{data}}</p>
+  {% endfor %}
+
+  <h2> 2. </h2>
+  {% if data_a == data_b%}
+  <p> 같다. </p>
+  {% else %}
+  <p> 다르다. </p>
+  {% endif%}
+
+  <h2> 3. </h2>
+  {% if my_string|length >= 10 %}
+  <p> long </p>
+  {% elif my_string|length <= 5 %}
+  <p>short</p>
+  {% else %}
+  <p> 적당 </p>
+  {% endif %}
+
+  <h2> 4. </h2>
+  {% for data in my_list %}
+    {% if data >= 90 %}
+    <p>{{data}} : A</p>
+    {% elif data >= 50 %}
+    <p>{{data}} : B</p>
+    {% else %}
+    <p>{{data}} : C</p>
+    {% endif %}
+  {% endfor %}
+</body>
+
+</html>
