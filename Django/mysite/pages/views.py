@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from datetime import datetime
+from django.views.decorators.csrf import csrf_exempt
 import random
 # Create your views here.
 
@@ -104,3 +105,15 @@ def forif(request):
         'data_b': data_b
     }
     return render(request, 'forif.html', context)
+
+@csrf_exempt
+def catch(request):
+    msg = request.POST.get('msg')
+    print(msg)
+    context = {
+        'msg':msg
+    }
+    return render(request, 'catch.html',context)
+
+def throw(request):
+    return render(request, 'throw.html')

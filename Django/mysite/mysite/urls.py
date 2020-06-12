@@ -29,4 +29,6 @@ urlpatterns = [
     path('googoodan/<str:num1>&<str:num2>',views.googoodan),
     path('dtl/',views.dtl),
     path('forif/',views.forif),
+    path('throw/',views.throw),
+    path('catch/',views.catch),
 ]
