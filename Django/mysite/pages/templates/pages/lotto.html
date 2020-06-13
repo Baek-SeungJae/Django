@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <form action="{% url 'lotto' %}" method="GET">
+
+    <p>몇 장 구매할까요?</p>
+    <input type="number" name="n">
+    <button type="submit">구매하기</button>
+  </form>
+
+  <ul>
+
+    {% for i in lotto %}
+    <li>{{i}}</li>
+    {% endfor %}
+
+  </ul>
+</body>
+
+</html>

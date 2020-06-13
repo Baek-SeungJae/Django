@@ -2,22 +2,23 @@ from django.shortcuts import render
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 import random
+from hanspell import spell_checker
 # Create your views here.
 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'pages/index.html')
 
 
 def hello(request):
     menu = ['닭갈비', '탕수육', '초밥', '스파게티돈가스']
     pick = random.choice(menu)
-    return render(request, 'hello.html', {'pick': pick})
+    return render(request, 'pages/hello.html', {'pick': pick})
 
 
 def name(request):
     my_name = "부러럭"
-    return render(request, 'name.html', {'my_name': my_name})
+    return render(request, 'pages/name.html', {'my_name': my_name})
 
 
 def introduce(request):
@@ -34,11 +35,11 @@ def introduce(request):
         'mybatis': random.choice(range(1, 50, 5)),
         'android': random.choice(range(1, 50, 5)),
     }
-    return render(request, 'introduce.html', context)
+    return render(request, 'pages/introduce.html', context)
 
 
 def yourname(request, name):
-    return render(request, 'yourname.html', name)
+    return render(request, 'pages/yourname.html', name)
 
 
 def nameAndAge(request, name, age):
@@ -46,7 +47,7 @@ def nameAndAge(request, name, age):
         'name': name,
         'age': age,
     }
-    return render(request, 'nameAndAge.html', context)
+    return render(request, 'pages/nameAndAge.html', context)
 
 
 def multiply(request, num1, num2):
@@ -57,7 +58,7 @@ def multiply(request, num1, num2):
         'num2': num2,
         'result': num1*num2,
     }
-    return render(request, 'multiply.html', context)
+    return render(request, 'pages/multiply.html', context)
 
 
 def googoodan(request, num1, num2):
@@ -75,7 +76,7 @@ def googoodan(request, num1, num2):
     context = {
         'googoodan': googoodan,
     }
-    return render(request, 'googoodan.html', context)
+    return render(request, 'pages/googoodan.html', context)
 
 
 def dtl(request):
@@ -89,7 +90,7 @@ def dtl(request):
         'my_string': my_string,
         'today': today,
     }
-    return render(request, 'dtl.html', context)
+    return render(request, 'pages/dtl.html', context)
 
 
 def forif(request):
@@ -104,16 +105,65 @@ def forif(request):
         'data_a': data_a,
         'data_b': data_b
     }
-    return render(request, 'forif.html', context)
+    return render(request, 'pages/forif.html', context)
+
 
 @csrf_exempt
 def catch(request):
     msg = request.POST.get('msg')
     print(msg)
     context = {
-        'msg':msg
+        'msg': msg
     }
-    return render(request, 'catch.html',context)
+    return render(request, 'pages/catch.html', context)
+
 
 def throw(request):
-    return render(request, 'throw.html')
+    return render(request, 'pages/throw.html')
+
+
+def urlexam(request, name):
+    my_list = ['짜장면', '차돌짬뽕', '탕수육', '콩국수']
+    lunch = random.choice(my_list)
+    context = {
+        'name': name,
+        'lunch': lunch,
+    }
+    return render(request, 'pages/urlexam.html', context)
+
+
+def wordtest(request):
+    result = spell_checker.check(u'안녕하 세요. 저는 한국인 입니다. 이 문장은 한글로 작성됐습니다.')
+    result = result.as_dict()
+    words = result.get('words')
+    original = result.get('original')
+    checked = result.get('checked')
+    l = list()
+    for data in words:
+        if words.get(data) != 0:
+            l.append(data)
+
+    context = {
+        'result': result,
+        'original': original,
+        'checked': checked,
+        'words': words,
+        'l': l
+    }
+
+    return render(request, 'pages/word.html', context)
+
+
+def lotto(request):
+    n = int(request.GET.get('n'))
+    ranges = range(0, n, 1)
+    lotto = list()
+    for i in ranges:
+        data = random.sample(range(1, 46), 6)
+        data.sort()
+        lotto.append(data)
+    context = {
+        'n': n,
+        'lotto': lotto
+    }
+    return render(request, 'pages/lotto.html', context)
