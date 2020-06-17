@@ -18,6 +18,8 @@ from django.urls import path, include
 from pages import views
 
 urlpatterns = [
+    path('articles_2/', include('articles_2.urls')),
+    path('jobs/',include('jobs.urls')),
     path('pages/',include('pages.urls')),
     path('secondapp/', include('secondapp.urls')),
     path('articles/', include('articles.urls')),

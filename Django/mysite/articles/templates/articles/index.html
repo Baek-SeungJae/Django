@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <ul>
+
+
+    {% for i in article %}
+    <li><a href="{% url 'articles:detail' i.id%}">{{i.id}}번째 게시글</a> <span>{{i.title}}</span></li>
+    {% endfor %}
+  </ul>
+</body>
+
+</html>

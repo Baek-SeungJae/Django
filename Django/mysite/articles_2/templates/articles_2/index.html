@@ -1,0 +1,13 @@
+{% extends 'base_2.html' %}
+{% block body %}
+
+<ul>
+  {% for data in article_list %}
+  <li><a href="{%url 'articles_2:detail' data.id %}">{{ data.title }}</a>  {{data.content}}   </li>
+  {% endfor%}
+</ul>
+
+
+<br/>
+<a href="{% url 'articles_2:create' %}">글 생성</a>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% block title %}
+<h1>글 상세보기</h1>
+{% endblock %}
+
+
+{% block body %}
+<p>id : {{article.id}}</p>
+<p>title : {{article.title}}</p>
+<p>content : {{article.content}}</p>
+<p>created_at : {{article.created_at}}</p>
+<p>updated_at : {{article.updated_at}}</p>
+
+
+<a href="{% url 'articles:index' %}">목록으로 돌아가기</a>
+
+<a href="{% url 'articles:delete' article.id %}">글 삭제하기</a>
+
+<a href="{% url 'articles:update' article.id %}">글 수정하기</a>
+{% endblock %}

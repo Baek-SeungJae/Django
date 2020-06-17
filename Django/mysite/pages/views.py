@@ -3,6 +3,7 @@ from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 import random
 from hanspell import spell_checker
+from articles.models import Article
 # Create your views here.
 
 
@@ -133,7 +134,8 @@ def urlexam(request, name):
 
 
 def wordtest(request):
-    result = spell_checker.check(u'안녕하 세요. 저는 한국인 입니다. 이 문장은 한글로 작성됐습니다.')
+    content = Article.objects.filter(title__contains='').last().content
+    result = spell_checker.check(content)
     result = result.as_dict()
     words = result.get('words')
     original = result.get('original')
@@ -148,6 +150,7 @@ def wordtest(request):
         'original': original,
         'checked': checked,
         'words': words,
+        'content':content,
         'l': l
     }
 
