@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+{% endblock %}
+
+{% block title %}
+<h1>/movies/</h1>
+{% endblock %}
+
+{% block body %}
+
+
+<div class="row bg-light mt-5">
+  <div class="col-lg-3 mt-5">
+    <div class="row p-5">
+      <!-- Nav tabs -->
+      <ul class="nav nav-pills btn-block flex-column success">
+        <li class="nav-item ">
+          <a class="nav-link active " data-toggle="tab" href="#home">개봉일순</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#menu1">평점순</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#menu2">관람객순</a>
+        </li>
+      </ul>
+
+
+    </div>
+  </div>
+  <div class="col-lg-9 mt-5">
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane container active" id="home">
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">title</th>
+              <th scope="col">score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in movieList%}
+            <tr>
+              <th scope="row">{{ forloop.counter}}</th>
+              <td><a href="{% url 'movies:detail' i.id %}" style="color: black;">{{i.title}}</a></td>
+              <td>{{i.score}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane container fade" id="menu1">
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">title</th>
+              <th scope="col">score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in movieList2%}
+            <tr>
+              <th scope="row">{{ forloop.counter}}</th>
+              <td><a href="{% url 'movies:detail' i.id %}" style="color: black;">{{i.title}}</a></td>
+              <td>{{i.score}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane container fade" id="menu2">
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">title</th>
+              <th scope="col">score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in movieList3%}
+            <tr>
+              <th scope="row">{{ forloop.counter}}</th>
+              <td><a href="{% url 'movies:detail' i.id %}" style="color: black;">{{i.title}}</a></td>
+              <td>{{i.score}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="row bg-light pt-3 pb-5 pr-4">
+  <div class="col-lg-12">
+    <a href="{% url 'movies:new' %}"><button class="btn btn-primary float-right"> 새 영화 등록 </button></a>
+  </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block title %}
+<h1>/movies/</h1>
+{% endblock %}
+
+{% block body %}
+
+<div class="row mt-5 bg-light p-5 mb-5">
+  <div class="col-lg-8">
+    <div class="row">
+      <h1>{{movie.title}}</h1>
+    </div>
+    <div class="row">
+      <h6>{{movie.title_en}} , {{movie.open_date|date:"Y"}}</h6>
+    </div>
+    <hr />
+    <br />
+    <span> /* 별점들어갈 공간 */</span>
+    <br />
+    <hr />
+
+    <span><b>개요</b></span> <span class="pl-1">{{movie.genre}}</span> <span class="pl-1">|</span> <span
+      class="pl-1">{{movie.open_date}} 개봉</span> <br />
+    <span><b>감독</b></span> <br />
+    <span><b>출연</b></span> <br />
+    <span><b>등급</b></span> <span class="pl-1">{{movie.watch_grade}}</span> <br />
+    <span><b>흥행</b></span> <span class="pl-1">{{movie.audience}}명</span> <span class="pl-1">|</span> <span
+      class="pl-1">평점 : {{movie.score}}</span> <br />
+    <br />
+    <hr />
+    <h5>줄거리</h5>
+    <span>
+      {{movie.description}}
+    </span>
+
+  </div>
+  <div class="col-lg-4">
+    <img src="{{movie.poster_url}}" style="width: 100%; height: auto; padding: 30px;" />
+    <div class="row float-right" style="padding:35px;">
+      <a href="{% url 'movies:edit' movie.id %}"><button class="btn btn-primary m-1 float-right"> 정보 수정 </button></a>
+      <form action="{% url 'movies:delete' movie.id %}" method="post" class="form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary m-1 float-right"> 정보 삭제 </button></a>
+
+      </form>
+    </div>
+    <div class="row float-right" style="padding-right:35px;">
+      <a href="{% url 'movies:movies'%}"><button class="btn btn-primary m-1 float-right"> 목록으로 </button></a>
+    </div>
+  </div>
+
+
+</div>
+
+
+{% endblock %}

@@ -135,7 +135,7 @@ def urlexam(request, name):
 
 def wordtest(request):
     content = Article.objects.filter(title__contains='').last().content
-    result = spell_checker.check(content)
+    result = spell_checker.check(u'반도체설계부터 공정 및 Platform생산할수 있는 인프라를 갖췄고 제품이나 새로운 기술을 좋아하기 때문입니다. AP 10nm Finfet을 넘어 7nm에 도전하여 기술로써 인류에 공헌하는 모습에 매료되었습니다. 2016년 4월 28일 화성캠퍼스내에서 System LSI사업부 Job Fair에 참석하여 직무에 대한 정보를 알 수 있었고 파운드리 사업부에서 어떤 일을 하는지에 대해 알 수 있었습니다. 4차 산업혁명이 도래함에 따라서 포화상태인 메모리 반도체 쪽보다 시스템반도체의 가능성이 컸기 때문에 지원했습니다. 단순히 모바일에 국한한 것이 아니라 오토모티브나 웨어러블으로 플랫폼의 응용이 무궁무진하다는 것이 시스템반도체의 매력을 느꼈기 때문입니다.')
     result = result.as_dict()
     words = result.get('words')
     original = result.get('original')
