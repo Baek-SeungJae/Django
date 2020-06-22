@@ -1,19 +1,17 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
-from articles.models import Article
+from articles.models import Article, Comment
+from .form import ArticleForm, CommentForm
+from django.views.decorators.http import require_POST
 # Create your views here.
 
 
 def index(request):
-    content = Article.objects.all()
-    n = list(range(len(content)))
-    article = list()
-    for i in n:
-        article.append(content[i])
+    articles = Article.objects.all()
+    for i in range(len(articles)):
+        articles[i].comment_count = len(Comment.objects.filter(article=articles[i]))
     context = {
-        'content': content,
-        'n': n,
-        'article': article
+        'articles': articles,
     }
     return render(request, 'articles/index.html', context)
 
@@ -35,15 +33,20 @@ def create(request):
 
 def detail(request, no):
     article = Article.objects.get(id=no)
+    comments = article.comment_set.all()
+    article.comment_count = len(Comment.objects.filter(article=article))
+    commentform = CommentForm()
     context = {
-        'article': article
+        'article': article,
+        'commentform': commentform,
+        'comments': comments,
     }
     return render(request, 'articles/detail.html', context)
 
 
+@require_POST
 def delete(request, no):
-    if request.method == 'POST':
-        Article.objects.get(id=no).delete()
+    Article.objects.get(id=no).delete()
     return redirect('articles:index')
 
 
@@ -56,12 +59,35 @@ def update(request, no):
     return render(request, 'articles/update.html', context)
 
 
+@require_POST
 def updated(request):
-    if request.method == 'POST':
-        no = int(request.POST.get('no'))
-        print(no)
-        article = Article.objects.get(id=no)
-        article.title = request.POST.get('title')
-        article.content = request.POST.get('content')
-        article.save()
-    return redirect('articles:detail',no)
+    no = int(request.POST.get('no'))
+    article = Article.objects.get(id=no)
+    article.title = request.POST.get('title')
+    article.content = request.POST.get('content')
+    article.save()
+    return redirect('articles:detail', no)
+
+
+@require_POST
+def newComment(request, no):
+    article = Article.objects.get(id=no)
+    Comment.objects.create(
+        article=article, content=request.POST.get('content'))
+    return redirect('articles:detail', no)
+
+
+@require_POST
+def deleteComment(request, no):
+    comment = Comment.objects.get(id=request.POST.get('commentId'))
+    comment.delete()
+    return redirect('articles:detail', no)
+
+
+@require_POST
+def updateComment(request, no):
+    comment = Comment.objects.get(id=request.POST.get('commentId'))
+    form = CommentForm(request.POST, instance=comment)
+    if form.is_valid():
+        comment = form.save()
+    return redirect('articles:detail', no)

@@ -12,4 +12,7 @@ urlpatterns = [
     path('delete/<str:no>',views.delete, name='delete'),
     path('update/<str:no>',views.update, name='update'),
     path('updated',views.updated, name='updated'),
+    path('newComment/<str:no>',views.newComment, name = 'newComment'),
+    path('deleteComment/<str:no>',views.deleteComment, name = 'deleteComment'),
+    path('updateComment/<str:no>',views.updateComment, name = 'updateComment'),
 ]

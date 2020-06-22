@@ -1,3 +1,4 @@
+{% extends 'base.html' %}
 {% block title %}
 <h1>글 상세보기</h1>
 {% endblock %}
@@ -11,9 +12,58 @@
 <p>updated_at : {{article.updated_at}}</p>
 
 
-<a href="{% url 'articles:index' %}">목록으로 돌아가기</a>
+<hr />
+<hr />
+{% if article.comment_count == 0 %}
+<p>댓글이 없습니다.</p>
 
-<a href="{% url 'articles:delete' article.id %}">글 삭제하기</a>
+{% else %}
+<p>댓글 : {{article.comment_count}} 개</p>
 
-<a href="{% url 'articles:update' article.id %}">글 수정하기</a>
+{% for comment in comments %}
+<div class="row">
+  <div class="col-lg-10">
+
+    <span>{{comment.content}} {{comment.created_at}} </span>
+    <div id="a{{comment.id}}" class="collapse">
+      <form action="{% url 'articles:updateComment' article.id %}" method="POST" id="delete_form">
+        {% csrf_token %} <input type="hidden" name=commentId value="{{comment.id}}" />
+        <label for="id_content">Content:</label>
+        <input type="text" name="content" maxlength="200" required="" id="id_content" value="{{comment.content}}">
+        <button type="submit">수정완료</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-1">
+
+    <form action="{% url 'articles:deleteComment' article.id %}" method="POST" id="delete_form">
+      {% csrf_token %} <input type="hidden" name=commentId value="{{comment.id}}" />
+      <button type="submit">삭제</button>
+    </form>
+  </div>
+  <div class="col-lg-1">
+    <button type="button" class="" data-toggle="collapse" data-target="#a{{comment.id}}">수정</button>
+    
+  </div>
+</div>
+<hr />
+{% endfor %}
+
+{% endif %}
+
+
+<form action="{% url 'articles:newComment' article.id %}" method="POST">
+  {% csrf_token %}
+  {{ commentform }}
+  <input type="submit" value="댓글생성" />
+</form>
+
+<a href="{% url 'articles:index' %}"><button>목록으로 돌아가기</button></a>
+<form action="{% url 'articles:delete' article.id %}" method="POST" style="margin-bottom: 0px;">
+  {% csrf_token %}
+  <button type="submit">글 삭제하기</button>
+</form>
+<a href="{% url 'articles:update' article.id %}"><button>글 수정하기</button></a>
+
+
 {% endblock %}
