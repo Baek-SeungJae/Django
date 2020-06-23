@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+{% block title %}
+Document
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+{% block body %}
+<div class="row mt-5 ">
+  <div class="col-lg-2"></div>
+  <div class="col-lg-8">
+    <div class="form-group">
+      {% if request.resolver_match.url_name == "update" %}
+      <h1>회원정보 수정</h1>
+      {% elif request.resolver_match.url_name == "signup" %}
+      <h1>회원가입</h1>
+      {% elif request.resolver_match.url_name == "password" %}
+      <h1>비밀번호 수정</h1>
+      {% endif %}
+      <form action="" method="POST">
+        {% csrf_token %}
+        {% bootstrap_javascript jquery='full' %}
+        <label for="{{ form.username.label_tag }}" class="form-check-label">Email subject:</label>
+        {% bootstrap_form form %}
+
+        {% if request.resolver_match.url_name == "update" %}
+        <button type="submit" class="btn btn-primary">수정하기</button>
+        {% elif request.resolver_match.url_name == "signup" %}
+        <button type="submit" class="btn btn-primary">가입하기</button>
+        {% elif request.resolver_match.url_name == "password" %}
+        <button type="submit" class="btn btn-primary">수정하기</button>
+        {% endif %}
+      </form>
+    </div>
+    <div class="col-lg-2"></div>
+  </div>
+</div>
+{% endblock %}

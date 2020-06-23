@@ -5,34 +5,129 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}
-    Document
-    {% endblock %}</title>
+
+    {% endblock %}
+  </title>
   <!-- CSS only -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
   <!-- JS, Popper.js, and jQuery -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-    crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script>
+    function signdown() {
+      $.ajax({
+        url:"#",
+        type: "get",
+        data: {
+
+        },
+        success: function (data) {
+          document.getElementById('signdown').click();
+          alert("?")
+        }
+      })
+    }
+  </script>
+  <style>
+    p{
+      color: white;
+    }
+    span {
+      color: white;
+    }
+    h1,h3{
+      color: white;
+    }
+  </style>
   {% block head %}
   {% endblock %}
 </head>
 
 <!-- <body class="bg-secondary"> -->
 
-<body>
-  <div class="container">
+<body class="bg-dark">
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <!-- Brand -->
+    <a class="navbar-brand mr-auto" href="{% url 'articles:index' %}">Logo</a>
+
+    <!-- Links -->
+    <ul class="navbar-nav">
+      {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'accounts:profile' user %}">{{user}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'accounts:logout' %}">로그아웃</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'accounts:update' %}">정보수정</a>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'accounts:login' %}">로그인</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'accounts:signup' %}">회원가입</a>
+      </li>
+      {% endif %}
+      <!-- Dropdown -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+          Dropdown link
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="" onclick="signdown()">탈퇴하기</a>
+          <a class="dropdown-item" href="#">Link 2</a>
+          <a class="dropdown-item" href="#">Link 3</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+  <div class="container-fluid px-0">
+    <div id="demo" class="carousel slide" data-ride="carousel">
+
+      <!-- Indicators -->
+      <ul class="carousel-indicators">
+        <li data-target="#demo" data-slide-to="0" class="active"></li>
+        <li data-target="#demo" data-slide-to="1"></li>
+        <li data-target="#demo" data-slide-to="2"></li>
+      </ul>
+
+      <!-- The slideshow -->
+      <div class="carousel-inner">
+        <div class="carousel-item active" style="width: 100%; height: 300px; overflow: hidden;">
+          <img src="/media/la.jpg" alt="Los Angeles" width="100%" height="auto"
+            style="position: absolute; top: -100px;">
+        </div>
+        <div class="carousel-item" style="width: 100%; height: 300px; overflow: hidden;">
+          <img src="/media/chicago.jpg" alt="Chicago" width="100%" height="auto"
+            style="position: absolute; top: -100px;">
+        </div>
+        <div class="carousel-item" style="width: 100%; height: 300px; overflow: hidden;">
+          <img src="/media/ny.jpg" alt="New York" width="100%" height="auto" style="position: absolute; top: -100px;">
+        </div>
+      </div>
+
+      <!-- Left and right controls -->
+      <a class="carousel-control-prev" href="#demo" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </a>
+      <a class="carousel-control-next" href="#demo" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </a>
+    </div>
+
     {% block body %}
 
 
     {% endblock %}
+    <form action="{% url 'accounts:delete' %}" method="POST">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-light" id="signdown">탈퇴하기</button>
+    </form>
   </div>
 </body>
 

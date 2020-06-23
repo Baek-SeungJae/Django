@@ -4,10 +4,13 @@ from .models import Article, Comment
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ['title','content',]
+        fields = ['title','content','image']
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        exclude = ['article']
+        widgets = {
+            'content': forms.TextInput(attrs={'class': 'form-control',}),
+        }
+        exclude = ['article','user']
         
