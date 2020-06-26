@@ -6,6 +6,7 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserChangeForm, CustomUserCreationForm
 from articles.models import Article, Comment
+from .models import User
 # Create your views here.
 
 
@@ -101,3 +102,15 @@ def profile(request, username):
         'person': person,
     }
     return render(request, 'accounts/profile.html', context)
+
+def follow(request, user_pk):
+    
+    i = request.user
+    user = User.objects.get(pk=user_pk)
+    if i != user:
+        if i in user.followers.all():
+            user.followers.remove(i)
+        else:
+            user.followers.add(i)
+    print(user.followers.all())
+    return redirect('accounts:profile',user.username)

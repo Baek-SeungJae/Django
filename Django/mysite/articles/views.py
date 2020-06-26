@@ -4,14 +4,26 @@ from articles.models import Article, Comment
 from .form import ArticleForm, CommentForm
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
 
 def index(request):
+    # 게시물 불러와서 댓글수 카운트
     articles = Article.objects.all()
     for i in range(len(articles)):
         articles[i].comment_count = len(
             Comment.objects.filter(article=articles[i]))
+
+    # 페이징처리
+    articles = Paginator(articles, 20)
+    page = request.GET.get('page')
+    try:
+        articles = articles.page(page)
+    except PageNotAnInteger:
+        articles = articles.page(1)
+    except EmptyPage:
+        articles = articles.page(articles.num_pages)
 
     context = {
         'articles': articles,
@@ -29,7 +41,7 @@ def create(request):
     form = ArticleForm(request.POST, request.FILES)
     if form.is_valid():
         article = form.save(commit=False)
-        article.user=request.user
+        article.user = request.user
         article.save()
     return redirect('articles:index')
 
@@ -106,7 +118,7 @@ def updateComment(request, no):
 
 @login_required
 def like(request, article_pk):
-    article = get_object_or_404(Article,pk=article_pk)
+    article = get_object_or_404(Article, pk=article_pk)
     user = request.user
     if user in article.like_users.all():
         article.like_users.remove(user)

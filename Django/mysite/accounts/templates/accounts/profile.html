@@ -4,7 +4,7 @@
 <div class="row mt-5">
   <div class="col-lg-2"></div>
   <div class="col-lg-8">
-    <h3>내가 작성한 게시글</h3>
+    <h3>{{ person }}이 작성한 게시글</h3>
     <br>
     <table class="table table-dark">
       <thead>
@@ -38,16 +38,38 @@
     </table>
     <br>
     <br>
-    <h3>내가 작성한 댓글</h3>
+    <h3>{{ person }}이 작성한 댓글</h3>
     <br>
     <div class="list-group">
       {% for i in comments %}
-      <a href="{% url 'articles:detail' i.article.id %}" class="list-group-item list-group-item-action list-group-item-dark">{{ i.content }}
+      <a href="{% url 'articles:detail' i.article.id %}"
+        class="list-group-item list-group-item-action list-group-item-dark">{{ i.content }}
       </a>
       {% endfor %}
     </div>
+    <br>
+    <h3>{{ person }}이 팔로우한 계정</h3>
+    <br>
+    <div class="list-group">
+      {% for i in person.followers.all %}
+      <a href="{% url 'accounts:profile' i.username %}"
+        class="list-group-item list-group-item-action list-group-item-dark">{{ i.username }}
+      </a>
+      {% endfor %}
+    </div>
+
   </div>
-  <div class="col-lg-2"></div>
+
+  <div class="col-lg-2">
+    {% if user != person %}
+    {% if user in person.followers.all %}
+      
+      <a href="{% url 'accounts:follow' person.pk %}"><button class ="btn btn-light">언팔로우</button></a>
+    {% else %}
+      <a href="{% url 'accounts:follow' person.pk %}"><button class ="btn btn-light">팔로우</button></a>
+    {% endif %}
+    {% endif %}
+  </div>
 
 </div>
 
