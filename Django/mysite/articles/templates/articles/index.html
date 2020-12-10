@@ -28,7 +28,7 @@ Document
           <td>
             <span><a href="{% url 'articles:detail' i.id%}"
                 style="text-decoration:none; color: #FFF;">{{i.title}}</a></span>
-            <span style="color: red;"><b>[{{i.comment_count}}]</b></span>
+            <span style="color: red;"><b>[{{i.comment_set.all|length}}]</b></span>
           </td>
           <td>
             {% if user in i.like_users.all %}
@@ -42,6 +42,9 @@ Document
         </tr>
         {% endfor %}
       </tbody>
+      <script>
+        like.then(resp)
+      </script>
     </table>
     <div class="row">
       <div class="col-lg-12">

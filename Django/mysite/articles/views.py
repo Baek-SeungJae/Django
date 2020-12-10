@@ -11,12 +11,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 def index(request):
     # 게시물 불러와서 댓글수 카운트
     articles = Article.objects.all()
-    for i in range(len(articles)):
-        articles[i].comment_count = len(
-            Comment.objects.filter(article=articles[i]))
 
     # 페이징처리
-    articles = Paginator(articles, 20)
+    articles = Paginator(articles, 3)
     page = request.GET.get('page')
     try:
         articles = articles.page(page)
@@ -24,6 +21,7 @@ def index(request):
         articles = articles.page(1)
     except EmptyPage:
         articles = articles.page(articles.num_pages)
+
 
     context = {
         'articles': articles,
